@@ -7,19 +7,18 @@ class Colors {
     private let colors = [UIColor.red, .green, .blue, .purple]
 
     func getName(_ index: Int) -> String {
-        return names[index]
+        return names[index % names.count]
     }
 
     func getColor(_ index: Int) -> UIColor {
-        return colors[index]
+        return colors[index % colors.count]
     }
 
-    var count: Int {
-        return names.count
-    }
+    var allNames: [String] { names }
+    var count: Int { names.count }
 }
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, ColorChooserDelegate {
     var count = 0
     var colors = Colors()
     let button = UIButton(frame: CGRect(x: 0, y: 0, width: 200, height: 44))
@@ -27,8 +26,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let index = count % colors.count
-        view.backgroundColor = colors.getColor(index)
+        view.backgroundColor = colors.getColor(count)
 
         button.setTitle("Color Choice", for: .normal)
         button.backgroundColor = .darkGray
@@ -39,11 +37,51 @@ class ViewController: UIViewController {
     }
 
     @IBAction func changeColor(sender: UIButton) {
-        count += 1
-        let index = count % colors.count
-
-        view.backgroundColor = colors.getColor(index)
+        let destination = ColorChooserViewController()
+        destination.currentColor = count
+        destination.delegate = self
+        present(destination, animated: true)
     }
+
+    func colorChooser(didChooseColor color: Int) {
+        count = color
+        view.backgroundColor = colors.getColor(count)
+    }
+}
+
+class ColorChooserViewController: UIViewController {
+    var colors = Colors()
+    var currentColor = 0
+
+    weak var delegate: ColorChooserDelegate?
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        let chooser = UISegmentedControl(items: colors.allNames)
+        chooser.frame = CGRect(x: 20, y: 0, width: view.frame.width - 40, height: 44)
+        chooser.addTarget(self, action: #selector(choose(_:)), for: .valueChanged)
+        chooser.tintColor = .black
+        view.addSubview(chooser)
+
+        view.backgroundColor = colors.getColor(currentColor)
+    }
+
+    @objc func choose(_ sender: UISegmentedControl) {
+        currentColor = sender.selectedSegmentIndex
+        let color = colors.getColor(currentColor)
+        view.backgroundColor = color
+
+        delegate?.colorChooser(didChooseColor: currentColor)
+
+        dismiss(animated: true) {
+            self.delegate = nil
+        }
+    }
+}
+
+protocol ColorChooserDelegate: AnyObject {
+    func colorChooser(didChooseColor color: Int)
 }
 
 PlaygroundPage.current.liveView = ViewController()
