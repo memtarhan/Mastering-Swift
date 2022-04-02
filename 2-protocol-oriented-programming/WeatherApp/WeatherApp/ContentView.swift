@@ -10,12 +10,20 @@ import SwiftUI
 struct ContentView: View {
     @State private var city: String = ""
 
+    @ObservedObject var viewModel = WeatherViewModel()
+
     var body: some View {
         VStack {
-            TextField("Enter city", text: $city)
+            TextField("Enter city", text: $city, onEditingChanged: { _ in
+
+            }, onCommit: {
+                if !self.city.isEmpty {
+                    self.viewModel.fetch(city: self.city)
+                }
+            })
                 .font(.title)
             Divider()
-            Text(city)
+            Text(viewModel.weatherInfo)
                 .font(.body)
         }
         .padding()

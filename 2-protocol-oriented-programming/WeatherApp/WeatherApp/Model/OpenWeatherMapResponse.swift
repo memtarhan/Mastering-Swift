@@ -7,10 +7,6 @@
 
 import Foundation
 
-struct OpenWeatherMapContainer: Codable {
-    var list: [OpenMapWeatherData]?
-}
-
 struct OpenMapWeatherData: Codable {
     var weather: [OpenMapWeatherWeather]
     var main: OpenMapWeatherMain
