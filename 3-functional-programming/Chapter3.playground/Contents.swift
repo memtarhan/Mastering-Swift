@@ -149,3 +149,21 @@ func addXAndY(x: Int, y: Int) -> (Int) -> Int {
 let add3And4 = addXAndY(x: 3, y: 4)
 add3And4(5)
 
+// MARK: - Recursion
+
+func countDown(startAt start: Int) {
+    if start < 0 { return }
+    print(start)
+    countDown(startAt: start - 1)
+}
+
+countDown(startAt: 10)
+
+func countUp(startAt start: Int, upTo finish: Int) {
+    if start > finish { return }
+    print(start)
+    countUp(startAt: start + 1, upTo: finish)
+}
+
+
+countUp(startAt: 5, upTo: 10)
