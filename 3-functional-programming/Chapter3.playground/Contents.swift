@@ -47,3 +47,15 @@ let squaredNumbers = numbers.map(square)
 let squaredNumbersX = numbers.map { $0 * $0 }
 let negativeNumbers = numbers.map { -$0 }
 print(negativeNumbers)
+
+// MARK: - .filter
+
+func even(number: Int) -> Bool { number % 2 == 0 }
+
+let evenNumbers = numbers.filter(even)
+print(evenNumbers)
+let oddNumbers = numbers.filter { $0 % 2 != 0 }
+print(oddNumbers)
+let oddNumbers2 = numbers.filter { !even(number: $0) }
+print(oddNumbers2)
+
