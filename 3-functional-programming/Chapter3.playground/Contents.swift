@@ -59,3 +59,14 @@ print(oddNumbers)
 let oddNumbers2 = numbers.filter { !even(number: $0) }
 print(oddNumbers2)
 
+// MARK: - .reduce
+
+/*
+ Reduces down to a single value such as sum, average, median, etc.
+ */
+
+func reduceSum(sum: Int, element: Int) -> Int { sum + element }
+let sum = numbers.reduce(0, reduceSum) // Initial value and function
+
+func reduceProduct(product: Int, element: Int) -> Int { product * element }
+let product = numbers.reduce(1, reduceProduct)
