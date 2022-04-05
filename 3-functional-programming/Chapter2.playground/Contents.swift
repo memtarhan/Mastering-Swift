@@ -82,3 +82,47 @@ combineNumbers(myFunction: max)
 combineNumbers(myFunction: { x, y in
     2 * x + y
 })
+
+// MARK: - Returning functions
+
+// func returnAFunction(x: Int) -> (() -> ()) {
+//
+// }
+
+func createPrinter() -> () -> Void {
+    func printer() {
+        print("Hello")
+    }
+
+    return printer
+}
+
+let printer = createPrinter()
+printer()
+
+//func double(x: Int) -> Int {
+//    return x * 2
+//}
+//
+//func triple(x: Int) -> Int {
+//    return x * 3
+//}
+//
+//func quadruple(x: Int) -> Int {
+//    return x * 4
+//}
+
+func createMultiplier(x: Int) -> (Int) -> Int {
+    func multiplier(y: Int) -> Int {
+        return x * y
+    }
+
+    return multiplier
+}
+
+let double = createMultiplier(x: 2)
+double(5)
+let triple = createMultiplier(x: 3)
+triple(5)
+let quadruple = createMultiplier(x: 4)
+quadruple(5)
