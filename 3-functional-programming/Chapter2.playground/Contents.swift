@@ -1,6 +1,6 @@
 import Foundation
 
-// MARK: - Defining Functions
+// MARK: - Defining functions as variables
 
 let name: String = "Mehmet"
 let number: Int = 7
@@ -51,3 +51,34 @@ if ENVIRONMENT == "development" {
 }
 
 let names = fetchNames()
+
+// MARK: - Passing functions as arguments
+
+func printUppercased(string: String) {
+    print(string.uppercased())
+}
+
+printUppercased(string: name)
+
+func someFuntion(anotherFuntion: (String) -> Int) {
+}
+
+func someFuntion(anotherFuntion: (Int, Int) -> Void) {
+}
+
+func add(x: Int, y: Int) -> Int { x + y }
+func substract(x: Int, y: Int) -> Int { x - y }
+
+func combineNumbers(myFunction: (Int, Int) -> Int) -> Int {
+    let x = 2
+    let y = 3
+    return myFunction(x, y)
+}
+
+combineNumbers(myFunction: add)
+combineNumbers(myFunction: substract)
+combineNumbers(myFunction: min)
+combineNumbers(myFunction: max)
+combineNumbers(myFunction: { x, y in
+    2 * x + y
+})
