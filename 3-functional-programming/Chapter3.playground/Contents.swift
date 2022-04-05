@@ -70,3 +70,60 @@ let sum = numbers.reduce(0, reduceSum) // Initial value and function
 
 func reduceProduct(product: Int, element: Int) -> Int { product * element }
 let product = numbers.reduce(1, reduceProduct)
+
+// MARK: - Let's combine those functions
+
+let myNumbers = numbers
+    .map(square)
+    .filter(even)
+    .reduce(0, reduceSum)
+
+print(myNumbers)
+
+enum Gender: String, Equatable {
+    case male, female, other
+
+    static func == (lhs: Gender, rhs: Gender) -> Bool {
+        lhs.rawValue == rhs.rawValue
+    }
+}
+
+struct Person: CustomStringConvertible {
+    var gender: Gender
+    var age: Int
+
+    var description: String { "\(age) years old \(gender.rawValue.capitalized)" }
+}
+
+let people = [Person(gender: .male, age: 20),
+              Person(gender: .other, age: 21),
+              Person(gender: .female, age: 22),
+              Person(gender: .male, age: 23),
+              Person(gender: .female, age: 24),
+              Person(gender: .other, age: 25),
+              Person(gender: .female, age: 26),
+              Person(gender: .male, age: 27),
+              Person(gender: .male, age: 28),
+              Person(gender: .female, age: 29),
+              Person(gender: .other, age: 30),
+              Person(gender: .male, age: 31)]
+
+// TODO: This does not work correctly
+func avg(x: Double, person: Person) -> Double {
+    if x == 0 {
+        print("Double(person.age) } = \(Double(person.age))")
+        return Double(person.age) }
+    else {
+        print("(x + Double(person.age)) / 2 = \((x + Double(person.age)) / 2)")
+        return (x + Double(person.age)) / 2
+    }
+}
+
+func isMale(person: Person) -> Bool { person.gender == .male }
+
+// Let's find average age of males
+let males = people.filter(isMale)
+let avgAge = males.reduce(0, avg)
+
+print(males)
+print(avgAge)
