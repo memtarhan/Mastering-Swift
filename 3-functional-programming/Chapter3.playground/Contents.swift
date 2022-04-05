@@ -112,8 +112,8 @@ let people = [Person(gender: .male, age: 20),
 func avg(x: Double, person: Person) -> Double {
     if x == 0 {
         print("Double(person.age) } = \(Double(person.age))")
-        return Double(person.age) }
-    else {
+        return Double(person.age)
+    } else {
         print("(x + Double(person.age)) / 2 = \((x + Double(person.age)) / 2)")
         return (x + Double(person.age)) / 2
     }
@@ -125,5 +125,27 @@ func isMale(person: Person) -> Bool { person.gender == .male }
 let males = people.filter(isMale)
 let avgAge = males.reduce(0, avg)
 
-print(males)
-print(avgAge)
+// MARK: - Partial application
+
+func add(x: Int, y: Int, z: Int) -> Int { x + y + z }
+func addX(x: Int) -> (Int, Int) -> Int {
+    func addYAndZ(y: Int, z: Int) -> Int {
+        return x + y + z
+    }
+    return addYAndZ
+}
+
+let add5 = addX(x: 5)
+add5(6, 7)
+
+func addXAndY(x: Int, y: Int) -> (Int) -> Int {
+    func addZ(z: Int) -> Int {
+        return x + y + z
+    }
+    
+    return addZ
+}
+
+let add3And4 = addXAndY(x: 3, y: 4)
+add3And4(5)
+
